@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+function userform(){
+document.getElementById("userLogin").style.display="block";
+if( $("#adminLogin").css('display') == 'block') {
+document.getElementById("adminLogin").style.display="none"
+document.getElementById("myUL").style.display="none";
+}
+}
+
+
+function adminform(){
+document.getElementById("adminLogin").style.display="block";
+if( $("#userLogin").css('display') == 'block') {
+document.getElementById("userLogin").style.display="none"
+document.getElementById("myUL").style.display="none";
+}
+}
+
+function userSubmit(){
+var uname=$("#uuname").val();
+var pwd=$("#upwd").val();
+if(uname !='admin' && pwd !='admin'){
+document.getElementById("userLogin").style.display="none";
+document.getElementById("login").style.display="none";
+document.getElementById("userArea").style.display="block";
+document.getElementById("logout").style.display="block";
+document.getElementById("myUL").style.display="block";
+
+
+}
+}
+
+
+
+function adminSubmit(){
+var uname=$("#auname").val();
+var pwd=$("#apwd").val();
+if(uname =='admin' && pwd == 'admin'){
+document.getElementById("adminLogin").style.display="none";
+document.getElementById("login").style.display="none";
+document.getElementById("adminArea").style.display="block";
+document.getElementById("logout").style.display="block";
+document.getElementById("myUL").style.display="block";
+}
+
+}
+
+</script>
+</head>
+<body>
+
+<h2 align="center">Interview Search portal</h2>
+
+<p align="center" id="login">
+<input type="button" value="User Login" id="userform" onclick="userform()"/> &nbsp; <input type="button" value="Admin Login" id="adminform" onclick="adminform()"/>
+
+
+</p>
+
+<p align="center" id="adminLogin" style="display:none;" >
+Admin login form
+</br><br>
+Username: <input type="text"  id="auname"/>
+</br><br>
+Password:<input type="password"   id="apwd"/>
+<br><br>
+<input type="button" id="adminSubmit" onclick="adminSubmit()" value="Login" />
+</p>
+
+<p align="center" id="userLogin" style="display:none;">
+User login form
+</br><br>
+Username: <input type="text"   id="uuname"/>
+</br><br>
+Password:<input type="password"   id="upwd"/>
+<br><br>
+<input type="button" id="userSubmit" onclick="userSubmit()" value="Login" />
+</p>
+
+
+<p align="center" style="display:none;" id="adminArea">
+Admin Area</br></br>
+<input type="button" onclick="add()" value="Add Category" >
+<table style="display:none;" align="center" id='tab1'><tr><td>
+<input type="text" id="catName"   ></td>
+<td><input type="button" id="addCat"  value="Submit" onclick="addCat()" ></td></tr></table>
+</p>
+
+<p align="center" style="display:none;" id="userArea">
+User Area</br>
+Search : <input type="text"  id="myInput" onkeyup="myFunction()" placeholder="Search for categories.." title="Type in a name"> &nbsp; <input type="button" onclick="openPaper()" value="Go" >
+
+
+<div id="txt">
+
+</div>
+
+</br>
+</br>
+<div id="Questions" style="display:none;">
+1. What is your name <input type="text" id="name"/>
+</br>
+2. What is your height <input type="text" id="height"/>
+
+<input type="button" id="subPaper" value="Submit" onclick="subPaper()"/>
+</div>
+<div id="status" style="display:none;">
+Test Complted.
+</div>
+
+<div id="timeout" style="display:none;">
+Time out.
+</div>
+</br>
+
+</p>
+
+<ul id="myUL" style="display:none;" >
+  <li><a href="#"  >General computer science questions</a></li>
+  <li><a href="#" >Logic problems </a></li>
+  <li><a href="#" >Coding exercises</a></li>
+  <li><a href="#" >Stack-specific questions for each tech stack</a></li>
+</ul>
+
+
+
+
+<p align="center" style="display:none;" id="logout">
+<input type="button" value="Logout" id="lgout" onclick="lgout()"/>
+</p>
+
+<script> 
+function lgout(){
+document.getElementById("myUL").style.display="none";
+document.getElementById("adminArea").style.display="none";
+document.getElementById("userArea").style.display="none";
+document.getElementById("logout").style.display="none";
+document.getElementById("login").style.display="block";
+
+document.getElementById("Questions").style.display="none";
+document.getElementById("txt").style.display="none";
+
+document.getElementById('timeout').style.display="none";
+document.getElementById('status').style.display="none";
+}
+
+$("#myUL li a").click(function(){    
+      $('.selectedLi').removeClass('selectedLi');    
+      $(this).addClass('selectedLi');
+      var selText = $(this).text();
+      document.getElementById("myInput").value=selText;
+      document.getElementById("myUL").style.display="none";      
+});
+
+
+
+
+
+function myFunction() {
+document.getElementById("myUL").style.display="block"
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+
+        }
+    }
+}
+function add(){
+if( $("#tab1").css('display') == 'block') {
+document.getElementById("tab1").style.display="none"
+}else{
+document.getElementById("tab1").style.display="block"
+}
+
+}
+
+function openPaper(){
+  $('.selectedLi').removeClass('selectedLi');    
+
+     document.getElementById("Questions").style.display="block"
+    var tt=setInterval(function(){ if(counter == 0) {
+    clearInterval(tt);
+    document.getElementById('timeout').style.display="block"; 
+  } else {
+    counter--;
+  }document.getElementById('txt').innerHTML= 'Time Remaining'+counter;  },1000);
+    var counter = 10;      
+}
+
+function subPaper(){
+document.getElementById('Questions').style.display="none";
+document.getElementById('txt').style.display="none";
+document.getElementById('status').style.display="block";
+
+}
+
+function addCat(){
+var value=document.getElementById("catName").value;
+$("#myUL").append('<li><a href="#">'+value+'</a></li>');
+document.getElementById("catName").value="";
+document.getElementById("tab1").style.display="none";
+}
+</script>
+
+<script>
+
+
+
+</script>
+</body>
+</html>

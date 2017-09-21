@@ -1,0 +1,43 @@
+Interview Search portal: Implement an MVP of the following, using Ness Connected:
+
+A portal for technical interviewers
+     -    A question bank for technical interview questions
+
+A place to share and get feedback on your favorite interview questions
+A place to find good time-tested interview questions with answers
+Divided into categories:
+Two levels of categories: category, subcategory
+Can be expanded/managed by the administrator
+Sample categories:
+General computer science questions
+Logic problems
+Coding exercises
+Stack-specific questions for each tech stack
+Search by free text, or by category/subcategory
+
+The Challenge:
+The customer would like to port the entire system to the Amazon Cloud. Propose a solution for this customer, including architectural patterns and a migration path that minimizes risk.
+
+Answare:
+this  solution was devloped using  reactjs +spring boot+sprin data+mangodb
+
+To run this app first run the mongodb then launch the spring boot and then can start webpak dev server
+
+private code repo:
+https://sagarmahapatro1@bitbucket.org/ness_devops/cto_associates_challenge.git
+user name:sagar.mahapatro@ness.com
+passcode:sagar123!@#
+
+
+for free text search mongo db is used as mongodb has now text search cabality , but we to improve performance we easly change the code to include elastic search,
+
+if we use elastic search with mongo db , we have to make the data consistent that is a challenging task.We can use third party driver that help in keeping data between one slave of mongo db and elastic server in shync.
+
+the better solution will be  to go in micorservices way and create a service app for search and we can use messaging to keep mongo  db and elastic serach in shync
+ 
+
+
+If user want to move the app to cloud , then we can foolw 12 factor app best practices so that services will become configurable and staeless.
+create the service bounderies using bounded context so that if cutomer wants we can divide the services to microservices 
+
+To run this app first run the mongodb then launch the spring boot and then can start webpak dev server

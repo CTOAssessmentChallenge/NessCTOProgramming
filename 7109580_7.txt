@@ -1,0 +1,1446 @@
+﻿1)pom.xml :-   An XML file that contains information about the project and configuration details that can be used by Maven to build the project. 
+
+
+Below is the maven configuration shows the dependencies on external API’s like spring framework, Apache PDFBox, Apache Lucene, Apache POI
+
+
+
+
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.resumeuploadandsearch</groupId>
+  <artifactId>resume_upload_search</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+    <name>ResumeSearchEngine</name>
+  <url>http://maven.apache.org</url>
+  
+  <properties>
+                <java-version>1.8</java-version>
+                <org.springframework-version>4.0.3.RELEASE</org.springframework-version>
+  </properties>
+  
+  
+  <dependencies>
+  
+   <!-- Document(word file) File Reader --> 
+  
+  <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi</artifactId>
+    <version>3.2-FINAL</version>
+</dependency>
+
+
+<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-scratchpad -->
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-scratchpad</artifactId>
+    <version>3.2-FINAL</version>
+</dependency>
+
+
+
+
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>3.7</version>
+</dependency>
+   
+    
+ <!-- Index creater on text  -->  
+   <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-core -->
+<dependency>
+    <groupId>org.apache.lucene</groupId>
+    <artifactId>lucene-core</artifactId>
+    <version>3.6.1</version>
+</dependency>
+
+
+<!-- PDF File reader  --> 
+   <!-- https://mvnrepository.com/artifact/pdfbox/pdfbox -->
+<dependency>
+    <groupId>pdfbox</groupId>
+    <artifactId>pdfbox</artifactId>
+    <version>0.7.3</version>
+</dependency>
+   <!-- https://mvnrepository.com/artifact/org.fontbox/fontbox -->
+ <dependency>
+    <groupId>org.fontbox</groupId>
+    <artifactId>fontbox</artifactId>
+    <version>0.1.0</version>
+</dependency>
+   
+   <!-- https://mvnrepository.com/artifact/com.asprise.ocr/java-ocr-api -->
+<!-- <dependency>
+    <groupId>com.asprise.ocr</groupId>
+    <artifactId>java-ocr-api</artifactId>
+    <version>15.3.0.3</version>
+</dependency> -->
+   
+   <dependency>
+    <groupId>com.asprise.ocr</groupId>
+    <artifactId>java-ocr-api</artifactId>
+    <version>15.3.0.3</version>
+   </dependency>
+   
+   <!-- Servlet/JSP --> 
+   
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+                        <groupId>javax.servlet.jsp</groupId>
+                        <artifactId>jsp-api</artifactId>
+                        <version>2.1</version>
+                        <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>jstl</artifactId>
+                        <version>1.2</version>
+        </dependency>
+        
+    <!-- Apache Commons DBCP -->
+                
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>1.3</version>
+    </dependency>
+    
+                        
+                
+                <!-- Spring -->
+                <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-context</artifactId>
+                        <version>${org.springframework-version}</version>
+                        <exclusions>
+                                <!-- Exclude Commons Logging in favor of SLF4j -->
+                                <exclusion>
+                                        <groupId>commons-logging</groupId>
+                                        <artifactId>commons-logging</artifactId>
+                                 </exclusion>
+                        </exclusions>
+                </dependency>
+                <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-webmvc</artifactId>
+                        <version>${org.springframework-version}</version>
+                </dependency>
+                <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-tx</artifactId>
+                        <version>${org.springframework-version}</version>
+                </dependency>
+                <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-web</artifactId>
+                        <version>${org.springframework-version}</version>
+                </dependency>
+                
+                <dependency>
+                        <groupId>org.codehaus.jackson</groupId>
+                        <artifactId>jackson-mapper-asl</artifactId>
+                        <version>1.9.10</version>
+                </dependency>
+                                                
+                <!-- Test -->
+        <!--  <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>provided</scope>
+    </dependency> -->
+      
+  </dependencies>
+  
+  <build>
+    <finalName>ResumeSearchEngine</finalName>
+  </build>
+  
+</project>
+
+
+
+
+
+
+
+
+
+
+
+
+2)web.xml :-  Act as requestdispatcher (/WEB-INF/web.xml) 
+
+
+ To pass control of any request to requesthandler (referred as dispacher-servlet)
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.5" 
+    xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <display-name>Archetype Created Web Application</display-name>
+  
+  <servlet>
+    <servlet-name>SpringMVC</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SpringMVC</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  
+</web-app>
+
+
+3) SpringMVC-servlet.xml  :-  Request handler (/WEB-INF/SpringMVC-servlet.xml)
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xmlns:context="http://www.springframework.org/schema/context" 
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                http://www.springframework.org/schema/mvc
+                http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+                http://www.springframework.org/schema/context 
+                http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+                
+         <context:annotation-config />
+     <context:component-scan base-package="com" />  
+     <mvc:annotation-driven />        
+         <mvc:resources mapping="/resources/**" location="/resources/" />
+                   
+        <!-- <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />         -->
+        <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                <property name="prefix" value="/WEB-INF/views/" />
+                <property name="suffix" value=".jsp" />
+        </bean>
+        
+        <bean id="multipartResolver"
+                class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+
+                <!-- one of the properties available; the maximum file size in bytes -->
+                <property name="maxUploadSize" value="10000000" />
+        </bean>
+                
+        <!-- <mvc:resources mapping="/resources/**" location="/resources/" cache-period="31556926"/>         -->
+                
+                                 
+</beans>
+
+
+
+
+
+
+
+4)DocumentController.java :- This is a controller class of the project which takes care of all the activity performed by the user on front end.
+
+
+package com.fileUploadAndSearch.controller;
+
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+//import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+
+import com.fileUploadAndSearch.search.IndexItem;
+import com.fileUploadAndSearch.search.FileSearch;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+//import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+
+@Controller
+public class DocumentController {
+        
+         private static final String UPLOAD_PATH = "/uploads/";
+         private static final String INDEX_PATH = "/index/"; //d:\\FileDir\\
+        // private static final String EXTERNAL_FILE_PATH = "d:\\FileDir\\"; //d:\\FileDir\\
+         private static final int BUFFER_SIZE = 4096;
+        
+         @RequestMapping(value = "/upload", method = RequestMethod.GET)
+          public ModelAndView uploadFile(HttpServletRequest request, HttpServletResponse response) {
+            ModelAndView mav = new ModelAndView("uploadpage");  
+            return mav;
+          }
+         
+         @RequestMapping(value = "/view", method = RequestMethod.GET)
+          public ModelAndView viewList(HttpServletRequest request, HttpServletResponse response) {
+            ModelAndView mav = new ModelAndView("viewpage");  
+            return mav;
+          }
+         
+         @RequestMapping(value = "/search", method = RequestMethod.GET)
+          public ModelAndView searchFile(HttpServletRequest request, HttpServletResponse response) {
+            ModelAndView mav = new ModelAndView("searchpage");    
+            return mav;
+          }
+
+
+        @RequestMapping(value = "/save", method = RequestMethod.POST)
+        public @ResponseBody ModelAndView saveFile(@RequestParam CommonsMultipartFile file, HttpSession session) { //, @RequestParam("file") MultipartFile file
+                int verifyIndex=0;
+                ModelAndView  mav = new ModelAndView("welcome");
+                String uploadPath=session.getServletContext().getRealPath(UPLOAD_PATH);  
+            String indexPath=session.getServletContext().getRealPath(INDEX_PATH); 
+            String filename = file.getOriginalFilename();
+
+               // System.out.println("uploadPath = " + uploadPath);
+               // System.out.println("indexPath = " + indexPath); 
+               // System.out.println("File NAme: "+file.getName());
+               // System.out.println("Originaml File NAme: "+filename);
+               // System.out.println("ContentType:" + file.getContentType());
+                
+                String filedir = uploadPath+filename;
+                File dir = new File(filedir);
+                
+                
+       
+                
+            if((!file.isEmpty()) && (filename.endsWith("doc") || filename.endsWith("docx") ||filename.endsWith("pdf")))                     
+            {
+                
+                            
+                    if(! new File(uploadPath).exists())
+                                    {
+                                 new File(uploadPath).mkdir();
+                      
+                                    }
+                    if(! new File(indexPath).exists())
+                                    {
+                                        new File(indexPath).mkdir();
+                                    }
+                         
+                try {                        
+                        
+                        String mimeType = URLConnection.guessContentTypeFromName(dir.getName());
+                        
+                        System.out.println("mimeType: " + mimeType);                                        
+                        file.transferTo(dir);
+                        
+                    verifyIndex = FileSearch.IndexCreater(filedir, filename,indexPath);
+                                                
+                        
+                } catch (Exception e) {
+
+
+                        e.printStackTrace();
+                }
+           }
+            
+            if(verifyIndex == 1){
+                    
+                    
+                    mav.addObject("message", "Thank You !!!, Your file has been uploaded successfully.!!!");
+                    
+            }else{
+                    
+                    dir.delete();
+                    mav.addObject("message", "<font color='Red'> Sorry !!!, You must upload a valid file having extensions .doc/.docx/.pdf only.</font>");
+            }   
+        
+            return mav;
+   }
+        
+        
+        
+        @RequestMapping(value="/searchlist",method=RequestMethod.POST)
+        public @ResponseBody Map<String,Object> getSearchedAll(HttpServletRequest request){
+                
+                String searchValue = request.getParameter("search");
+                System.out.println("String Value : "+searchValue);
+
+                if(searchValue==""){
+			searchValue="''";   //blank search value to clear the list
+		}
+                
+                //String uploadPath=session.getServletContext().getRealPath(UPLOAD_PATH);  
+                String indexPath=request.getServletContext().getRealPath(INDEX_PATH); 
+                
+                System.out.println("Search Path Value : "+indexPath);
+                
+                Map<String,Object> map=new HashMap<String,Object>();
+                                                
+                List<IndexItem> list = null;
+                
+                try {
+                        
+                        list = FileSearch.searcher(searchValue, indexPath);
+                        
+                } catch (Exception e) {
+                        
+                        e.printStackTrace();
+                } 
+                
+                                       
+                if(list != null){
+                    map.put("status", "200");
+                    map.put("message", "Data found.");
+                    map.put("data",list);
+                }else{
+
+
+            map.put("status", "404");
+                        map.put("message", "Data not found.");        
+                }
+                return map;
+                                
+        }
+        
+             
+
+
+    @RequestMapping(value="/download/{filename:.+}",method=RequestMethod.GET)
+    public @ResponseBody void downloadFile(HttpServletRequest request, HttpServletResponse response,@PathVariable("filename") String filename) throws IOException{
+                
+                String downloadPath = request.getServletContext().getRealPath(UPLOAD_PATH);
+                //String filename = request.getParameter("filename");
+                System.out.println("String Value : "+filename);
+                System.out.println("downloadPath : "+downloadPath);
+                
+                String fullPath = downloadPath + filename;
+                
+        File downloadFile = new File(fullPath);
+                FileInputStream inputStream = new FileInputStream(downloadFile);
+                
+                        // get MIME type of the file
+                    
+                String mimeType = URLConnection.guessContentTypeFromName(downloadFile.getName());
+                       
+                if (mimeType == null) {
+                        // set to binary type if MIME mapping not found
+                           mimeType = "application/octet-stream";
+                       
+                }
+                     
+          // set content attributes for the response
+             response.setContentType(mimeType);
+                       
+                response.setContentLength((int) downloadFile.length());
+
+
+                // set headers for the response
+                    
+                String headerKey = "Content-Disposition";
+                        
+                String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
+                        
+                response.setHeader(headerKey, headerValue);
+                
+                        
+                //System.out.println("Download File name: " + downloadFile.getName());
+                
+                // get output stream of the response
+                       
+                OutputStream outStream = response.getOutputStream();
+                
+               
+                byte[] buffer = new byte[BUFFER_SIZE];
+                        
+                int bytesRead = -1;
+        
+                       
+                // write bytes read from the input stream into the output stream
+                       
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        
+                        outStream.write(buffer, 0, bytesRead);
+                       
+                }
+                   
+                        
+                inputStream.close();
+                        
+                outStream.close();
+    
+        }
+
+
+
+
+        
+}
+
+
+
+
+
+
+
+
+5) DocReader.java :-  Java class to read doc/docx and extract its text content.
+
+
+package com.fileUploadAndSearch.search;
+
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+
+
+import org.apache.poi.hpsf.DocumentSummaryInformation;
+
+
+import org.apache.poi.hwpf.*;
+import org.apache.poi.hwpf.extractor.*;
+import org.apache.poi.hwpf.usermodel.HeaderStories;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
+import org.apache.poi.xwpf.usermodel.IBodyElement;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFFooter;
+import org.apache.poi.xwpf.usermodel.XWPFHeader;
+//import org.apache.poi.xwpf.usermodel.XWPFFooter;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+//import org.apache.poi.xwpf.usermodel.XWPFPictureData;
+import org.apache.xmlbeans.XmlException;
+
+
+public class DocReader {
+
+
+        public static IndexItem readDocFile(File file) {
+
+
+                String content="";
+                try {
+                                                                
+                        FileInputStream fis = new FileInputStream(file.getAbsolutePath());
+                        System.out.println("File Absolute: "+file.getAbsolutePath());
+                        POIFSFileSystem fs = new POIFSFileSystem(fis);
+                        HWPFDocument doc = new HWPFDocument(fs);
+                        
+                        //System.out.println("File Absolute"+file.getAbsolutePath());  
+                        WordExtractor extractor  = new WordExtractor(doc);
+                        
+                        String[] paragraphs = extractor.getParagraphText();
+                        
+                        //System.out.println("Total no of paragraph "+paragraphs.length);
+                        for (String para : paragraphs) {
+                                
+                                if (para.toString() != null)
+                                content=content + para.toString();
+                                
+                        }
+                        fis.close();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                }
+
+
+                //System.out.println(content);
+                return new IndexItem((long)file.getName().hashCode(), file.getName(), content);
+        }
+
+
+        public static IndexItem readDocxFile(File file) {
+                
+                    String content="";                
+                        
+                    FileInputStream fis=null;
+                        XWPFDocument docx=null;
+                        
+                        try {
+                                
+                                 fis = new FileInputStream(file.getAbsolutePath());
+                                    docx = new XWPFDocument(OPCPackage.open(fis));
+                        } catch (Exception e) {
+                                e.printStackTrace();
+                        }
+                        
+                        //String hf = ReadDOCXHeaderFooter(docx);
+                        
+                 String para = ExtractParagraphDOCX(docx);
+                 String tableText = ExtractTableDOCX(docx);
+                content=tableText+" "+para;
+                //System.out.println(para);
+                //System.out.println("===================================");
+                // System.out.println(tableText);
+                return new IndexItem((long)file.getName().hashCode(), file.getName(), content);
+        }
+        
+        
+        public static void readHeader(HWPFDocument doc, int pageNumber){
+            HeaderStories headerStore = new HeaderStories( doc);
+            String header = headerStore.getHeader(pageNumber);
+            System.out.println("Header Is: "+header);
+
+
+        }
+
+
+        public static void readFooter(HWPFDocument doc, int pageNumber){
+            HeaderStories headerStore = new HeaderStories( doc);
+            String footer = headerStore.getFooter(pageNumber);
+            System.out.println("Footer Is: "+footer);
+
+
+        }
+
+
+        public static void readDocumentSummary(HWPFDocument doc) {
+            DocumentSummaryInformation summaryInfo=doc.getDocumentSummaryInformation();
+            String category = summaryInfo.getCategory();
+            String company = summaryInfo.getCompany();
+            int lineCount=summaryInfo.getLineCount();
+            int sectionCount=summaryInfo.getSectionCount();
+            int slideCount=summaryInfo.getSlideCount();
+
+
+            //System.out.println("---------------------------");
+           // System.out.println("Category: "+category);
+            //System.out.println("Company: "+company);
+           // System.out.println("Line Count: "+lineCount);
+           // System.out.println("Section Count: "+sectionCount);
+           // System.out.println("Slide Count: "+slideCount);
+
+
+        }
+
+
+        public static String ReadDOCXHeaderFooter(XWPFDocument docx){
+                
+                String headerFooter;
+                 //XWPFDocument xdoc=new XWPFDocument(OPCPackage.open(fis));
+                 XWPFHeaderFooterPolicy policy = null;
+                try {
+                        policy = new XWPFHeaderFooterPolicy(docx);
+                } catch (Exception e) {
+                        
+                        e.printStackTrace();
+                } 
+                 //read header
+                
+                 XWPFHeader header = policy.getDefaultHeader();
+                 System.out.println(header.getText());
+                 //read footer
+                 XWPFFooter footer = policy.getDefaultFooter();
+                 System.out.println(footer.getText());        
+                                 
+                 headerFooter=header.getText()+footer.getText();
+                 
+                return headerFooter;
+        }
+        
+        public static String ExtractParagraphDOCX(XWPFDocument docx){
+                String para="";
+                
+                List<XWPFParagraph> paragraphList =  docx.getParagraphs();
+               for (XWPFParagraph paragraph: paragraphList){
+                       para = para+  paragraph.getText();
+                   System.out.println(paragraph.getText());
+               }
+                return para;
+        }
+        
+        public static String ExtractTableDOCX(XWPFDocument docx){
+                String content="";
+                //String content2="";
+                
+                List<XWPFTable> table = docx.getTables();
+                
+                 for (XWPFTable xwpfTable : table) { 
+             List<XWPFTableRow> row = xwpfTable.getRows(); 
+             for (XWPFTableRow xwpfTableRow : row) { 
+                     
+                     List<XWPFTableCell> cell = xwpfTableRow.getTableCells();
+                     
+                     for (XWPFTableCell xwpfTableCell : cell) { 
+                             if(xwpfTableCell!=null) 
+                             { 
+                                     
+                                      content=content+xwpfTableCell.getText();
+                                  System.out.println("Level_1: "+xwpfTableCell.getText()); 
+                                    
+                                  List<XWPFTable> itable = xwpfTableCell.getTables(); 
+                                     
+                                  if(itable.size()!=0) 
+                                     { 
+                                             
+                                          for (XWPFTable xwpfiTable : itable) { 
+                                                     
+                                                    
+                                                  List<XWPFTableRow> irow = xwpfiTable.getRows(); 
+                                                     
+                                                  for (XWPFTableRow xwpfiTableRow : irow) { 
+                                                          
+                                                         List<XWPFTableCell> icell = xwpfiTableRow.getTableCells(); 
+                                                             for (XWPFTableCell xwpfiTableCell : icell) { 
+                                                                     
+                                                                     if(xwpfiTableCell!=null) 
+                                                                     {   
+                                                                                 content=content+xwpfTableCell.getText();
+                                                                             System.out.println("Level_2: "+xwpfiTableCell.getText()); 
+                                                                     } 
+                                                             } 
+                                                     } 
+                                             } 
+                                     } 
+                             } 
+                     } 
+             } 
+} 
+
+
+                
+                /*Iterator<IBodyElement> bodyElementIterator = (Iterator<IBodyElement>) docx.getBodyElements();
+                while(bodyElementIterator.hasNext()) {
+                   IBodyElement element = bodyElementIterator.next();
+                  if("TABLE".equalsIgnoreCase(element.getElementType().name())) {
+                          
+                       List<XWPFTable> tableList =   element.;
+                       
+                     for (XWPFTable table: tableList){
+                        System.out.println("Total Number of Rows of Table:"+table.getNumberOfRows());
+                        System.out.println(table.getText());
+                     }
+                  }
+                }*/
+                return content;
+        }
+        
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6)FileSearch.java   : Java class holds the control of uploading resume, creating index on extracted text of the resume and search resume.
+
+
+package com.fileUploadAndSearch.search;
+
+
+import org.apache.lucene.queryParser.ParseException;
+//import org.pdfbox.pdmodel.PDDocument;
+//import org.pdfbox.util.PDFTextStripper;
+
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+
+
+
+        public class FileSearch {
+            // location where the index will be stored.
+           // private static final String INDEX_DIR = "src/main/webapp/resources/index";
+                      
+            public static List<IndexItem> searcher(String Content, String INDEX_DIR) throws IOException, ParseException
+            {
+            int DEFAULT_RESULT_SIZE = 100;
+            System.out.println("Search in content: "+Content);
+            Searcher searcher = new Searcher(INDEX_DIR);
+            List<IndexItem> result = searcher.findByContent(Content, DEFAULT_RESULT_SIZE);
+            //print(result);
+            //System.out.println("Search in content: "+result.getContent());
+            searcher.close();
+            return result;
+            }
+            
+           /* public static List<IndexItem> lister(String INDEX_DIR) throws IOException, ParseException
+            {
+            int DEFAULT_RESULT_SIZE = 100;
+           // System.out.println("Search in content: "+Content);
+            Searcher searcher = new Searcher();
+            List<IndexItem> result = searcher.findByContent(Content, DEFAULT_RESULT_SIZE);
+            //print(result);
+            //System.out.println("Search in content: "+result.getContent());
+            searcher.close();
+            //return result;
+            }*/
+            
+            public static int IndexCreater(String fileDir, String filename, String INDEX_DIR) throws IOException
+            {
+                    //File pdfFile = new File("src/resources/johndoe_resume.pdf");
+                    File file = new File(fileDir);
+                    IndexItem indexItem =null;
+                    //DocReader doc =new DocReader();
+                    
+                    if(filename.endsWith("pdf")){
+                            
+                            System.out.println("This is pdf file");
+                            
+                            try{
+                                    
+                               indexItem = PDFReader.index(file);
+                            
+                            }catch(Exception e){
+                                    
+                                    System.out.println("Exception occurred in normal pdf reader");
+                                    indexItem = OCRImageReader.ocrIndex(file);
+                                    //e.printStackTrace();
+                            } 
+                            
+                            //System.out.println("Filecontent: "+indexItem.getContent());
+                            //System.out.println("Filecontent length: "+indexItem.getContent().trim().length());
+                   
+                            if(indexItem.getContent().trim().length()==0){
+                                    
+                                    System.out.println("This is ocr implementation for this pdf file");
+                                    
+                                    indexItem = OCRImageReader.ocrIndex(file);
+                                    
+                            }
+                            
+                            
+                    }else if(filename.endsWith("docx")){
+                             System.out.println("This is docx file");
+                             indexItem = DocReader.readDocxFile(file);
+                    }else if(filename.endsWith("doc")){
+                             System.out.println("This is doc file");
+                             indexItem = DocReader.readDocFile(file);//readDocFile
+                    }else {
+                            
+                            System.out.println("Image reader");
+                            indexItem = OCRImageReader.ocrIndex(file);
+                            
+                    }
+                // creating an instance of the indexer class and indexing the items
+                    
+                    //System.out.println("FinalValue: "+indexItem.getContent());
+                    //System.out.println("FinalValue: "+indexItem.getTitle());
+                    //System.out.println("IndexItemId: "+indexItem.getId());
+                    String con = indexItem.getContent();
+                    if(con.contains("<error: failed to read") || (con.trim().length()==0)){
+                                
+                 return 0;
+                    }
+                    
+                    
+                    Indexer indexer = new Indexer(INDEX_DIR);
+                indexer.index(indexItem);
+                indexer.close();
+                System.out.println("Index is created successfully !!!");
+                
+                    return 1;
+            }
+            
+           
+           
+        }
+
+
+
+
+
+
+
+
+7) Indexer.java :- This class creates index on  extracted content of /.doc, /.docx and /.pdf and stores into a file system call as lucene index file that can be used for content search.
+
+
+package com.fileUploadAndSearch.search;
+
+
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Version;
+
+
+import java.io.File;
+import java.io.IOException;
+
+
+public class Indexer {
+        private IndexWriter writer;
+
+
+    public Indexer(String indexDir) throws IOException {
+        // create the index
+        if(writer == null) {
+        writer = new IndexWriter(FSDirectory.open(
+                new File(indexDir)), new IndexWriterConfig(Version.LUCENE_36, new StandardAnalyzer(Version.LUCENE_36)));
+        }
+    }
+
+
+    /** 
+      * This method will add the items into index
+      */
+    public void index(IndexItem indexItem) throws IOException {
+
+
+        // deleting the item, if already exists
+        writer.deleteDocuments(new Term(IndexItem.ID, indexItem.getId().toString()));
+
+
+        Document doc = new Document();
+
+
+        doc.add(new Field(IndexItem.ID, indexItem.getId().toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexItem.TITLE, indexItem.getTitle(), Field.Store.YES, Field.Index.ANALYZED));
+        doc.add(new Field(IndexItem.CONTENT, indexItem.getContent(), Field.Store.YES, Field.Index.ANALYZED));
+
+
+        // add the document to the index
+        writer.addDocument(doc);
+    }
+
+
+    /**
+      * Closing the index
+      */
+    public void close() throws IOException {
+        writer.close();
+    }
+}
+
+
+
+
+
+
+
+
+8)IndexItem.java  :-  A bean java class, used for temporary variable reference. 
+
+
+package com.fileUploadAndSearch.search;
+
+
+public class IndexItem {
+        private Long id;
+    private String title;
+    private String content;
+
+
+    public static final String ID = "id";
+    public static final String TITLE = "title";
+    public static final String CONTENT = "content";
+
+
+    public IndexItem(Long id, String title, String content) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+
+    public String getTitle() {
+        return title;
+    }
+
+
+    public String getContent() {
+        return content;
+    }
+
+
+    @Override
+    public String toString() {
+        return "IndexItem{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
+
+
+}
+
+
+
+
+
+
+9) PDFReader :-  Extract the text from the pdf .
+
+
+package com.fileUploadAndSearch.search;
+
+
+import org.pdfbox.pdmodel.PDDocument;
+import org.pdfbox.util.PDFTextStripper;
+
+
+import java.io.File;
+import java.io.IOException;
+public class PDFReader {
+        
+public static IndexItem index(File file) throws IOException {
+        PDDocument doc = PDDocument.load(file);
+        String content = new PDFTextStripper().getText(doc);
+        doc.close();
+        return new IndexItem((long)file.getName().hashCode(), file.getName(), content);
+    }
+
+
+}
+
+
+
+
+10) Searcher.java :-    It searches for a word using lucene index and returns the match found result.
+
+
+package com.fileUploadAndSearch.search;
+
+
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.*;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Version;
+
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class Searcher {
+        private IndexSearcher searcher;
+    //private QueryParser titleQueryParser;
+    private QueryParser contentQueryParser;
+
+
+    public Searcher(String indexDir) throws IOException {
+        // open the index directory to search
+        searcher = new IndexSearcher(IndexReader.open(FSDirectory.open(new File(indexDir))));
+        StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_36);
+
+
+        
+
+
+        // defining the query parser to search items by content field.
+        contentQueryParser = new QueryParser(Version.LUCENE_36, IndexItem.CONTENT, analyzer);
+    }
+
+
+    /**
+      * This method is used to find the indexed items by the title.
+      * @param queryString - the query string to search for
+      */
+//    public List<IndexItem> findByTitle(String queryString, int numOfResults) throws ParseException, IOException {
+//        // create query from the incoming query string.
+//        Query query = titleQueryParser.parse(queryString);
+//        // execute the query and get the results
+//        ScoreDoc[] queryResults = searcher.search(query, numOfResults).scoreDocs;
+//
+//        List<IndexItem> results = new ArrayList<IndexItem>();
+//        // process the results
+//        for (ScoreDoc scoreDoc : queryResults) {
+//            Document doc = searcher.doc(scoreDoc.doc);
+//            results.add(new IndexItem(Long.parseLong(doc.get(IndexItem.ID)), doc.get(IndexItem.TITLE), doc.get(IndexItem
+//                    .CONTENT)));
+//        }
+//
+//         return results;
+//    }
+
+
+    /**
+      * This method is used to find the indexed items by the content.
+      * @param queryString - the query string to search for
+      */
+    public List<IndexItem> findByContent(String queryString, int numOfResults) throws ParseException, IOException {
+        // create query from the incoming query string.
+        Query query = contentQueryParser.parse(queryString);
+         // execute the query and get the results
+        ScoreDoc[] queryResults = searcher.search(query, numOfResults).scoreDocs;
+        
+        List<IndexItem> results = new ArrayList<IndexItem>();
+        
+  
+      /*  if(queryResults.length>0){
+                return 1;
+        }
+        else 
+                return 0;*/
+        
+        // process the results
+        for (ScoreDoc scoreDoc : queryResults) {
+            Document doc = searcher.doc(scoreDoc.doc);
+           results.add(new IndexItem(Long.parseLong(doc.get(IndexItem.ID)), doc.get(IndexItem.TITLE), doc.get(IndexItem.CONTENT))); //Integer.parseInt(queryString, queryResults.length)
+       }
+
+
+         return results;
+    }
+
+
+    public void close() throws IOException {
+        searcher.close();
+    }
+}
+
+
+
+
+11) index.jsp (/webapp/index.jsp)  :- Default page of the application
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <!-- <meta charset="utf-8"> -->
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="resources/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="resources/css/bootstrap-grid.min.css">
+  <link rel="stylesheet" href="resources/css/bootstrap-reboot.min.css"> -->
+ <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
+<title>Resume Search Engine</title>
+
+
+</head>
+<body style="background-image:url('resources/css/images/back.jpg');background-repeat: no-repeat ;">  <!-- onload="load();"  -->
+     
+  <div class="jumbotron text-center">
+    <h1><img src="resources/css/images/logo.png" height="80" width="80"><span class="text-primary" style="font-weight: bold"> Resumé Search Engine</span></h1>
+    <p>Upload, Search contents and View uploaded Resumé.</p> 
+  </div>
+  
+<div class="container" >
+  <div class="row">
+    <div class="col-sm-4" >
+      <a href="upload"><button type="button" class="btn btn-primary btn-lg">
+      <span class="glyphicon glyphicon-plus"></span> Upload Resume
+    </button></a>
+    </div>
+    <div class="col-sm-4">
+    <a href="search">
+    <button type="button" class="btn btn-primary btn-lg">
+      <span class="glyphicon glyphicon-search "></span> Search Resume
+    </button></a>
+    </div>
+    <div class="col-sm-4"> 
+    <a href="view">     
+      <button type="button" class="btn btn-primary btn-lg">
+      <span class="glyphicon glyphicon-th-list"></span> View Resume
+    </button></a> 
+     
+    </div>
+  </div>
+</div>   
+         
+
+
+</body>
+</html>
+
+
+
+
+
+
+12) uploadpage.jsp (/WEB-INF/views/) :-UI for upload resume file 
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<title>Upload</title>
+</head>
+<body>
+
+
+<form  id="form" onsubmit="return CheckFileName();" method="post" commandName="document" action="save" enctype="multipart/form-data">
+  <!-- File input --> 
+  
+<h2>Resume Upload</h2>
+  
+  <table >
+      
+       <tr>
+         <td>Upload File: </td>
+         <td> 
+           <input name="file" id="file" type="file" > <font color='Red'><span id="fileTypeError"></font></span><br/>
+        </td>
+      </tr>   
+      <tr>
+          <td>
+             <input  type="submit" value="Upload" />
+           
+          </td>
+      </tr>
+       
+    </table>
+ </form>
+ <script type="text/javascript">
+ 
+ CheckFileName=function () {
+         
+     var filePath = document.getElementById("file").value;   
+    // alert(filePath);
+     var allowedExtensions = /(\.doc|\.docx|\.pdf)$/i;
+     
+    
+     if (!allowedExtensions.exec(filePath)) {
+             //alert(filePath);
+             document.getElementById("fileTypeError").innerHTML = " Please upload file having extensions .doc/.docx/.pdf only.";
+             document.getElementById("file").value ='';
+         return false; 
+             
+            
+     }else{
+             
+             document.getElementById("fileTypeError").innerHTML ="";
+             return true; 
+         
+     }
+     
+     
+   
+ }
+ </script>
+ 
+</body>
+</html>
+
+
+
+
+
+
+13) searchpage.jsp(/WEB-INF/views/)  : UI for search resume
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<title>Search Resume</title>
+</head>
+<body>
+<h2>Resume Search Engine</h2>
+      
+  <table id="searchlist">
+       <tr> 
+       <td>Enter keyword: </td>
+         <td> 
+           <input type="text" name="search" id="search" onchange="searchlist();">
+         </td>
+      
+      
+      </tr>
+      <tr>
+        <td>
+            <button value="Submit" onclick="searchlist();">Search</button>
+      </td>    
+      </tr>
+       
+    </table>    
+      
+ <table id="list" border="1" width="70%" cellpadding="2">  
+   <tr><th>Document Name</th><th>Download link</th></tr>
+
+
+</table>  
+
+
+         
+<script type="text/javascript">
+
+
+data="";
+
+
+searchlist=function(){
+        
+        //alert(document.getElementById("search").value);        
+        $.ajax({
+                url:'searchlist',
+                type:'POST',
+                data:{search:$("#search").val()},
+                success: function(response){
+                        data = response.data;
+                        $('.tr').remove();
+                        for(i=0;i<response.data.length;i++){
+                                $("#list").append("<tr class='tr'><td> "+response.data[i].title+"</td><td><a href='download/"+response.data[i].title+"'>Download</a></td></tr>");
+                                //$("#list").append("<tr class='tr'><td> "+response.data[i].title+"</td><td><a href='#' onclick='download("+i+");'>DownLoad</a></td></tr>");
+                        }
+                        
+                }
+        });
+}
+
+
+
+
+</script>
+</body>
+</html>
+
+
+14)welcome.jsp(/WEB-INF/views/) : Shows the status of the upload functionality. 
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+    <html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <title>Welcome</title>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td>${message}</td>
+            </tr>
+             <tr>
+            </tr>
+             <tr>
+                <td>
+                    <a href="index.jsp">Home</a>
+                </td>
+            </tr> 
+            <tr>
+            </tr>
+            
+        </table>       
+               
+    </body>
+    </html>
+
+
+15)viewpage.jsp(/WEB-INF/views/) : List the all existing resume in the system. 
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<title>List Results</title>
+</head>
+<body onload="load();">
+<div align="center">
+<p><b>Total Resume Count:</b> <span id="totalcount"></span></p>
+</div>
+ 
+<table id="list" border="2" width="70%" cellpadding="2" align="center"> 
+   
+   <tr><th>Sr. No.</th><th> Resume name</th></tr>
+
+</table>  
+<script type="text/javascript">
+
+data="";
+
+load=function(){
+	
+	//alert(document.getElementById("search").value);	
+	$.ajax({
+		url:'searchlist',
+		type:'POST',
+		data:{search:'*:*'},
+		success: function(response){
+			data = response.data;
+			//alert(response.data.length);
+			$("#totalcount").html(response.data.length);
+			$('.tr').remove();
+			for(i=0;i<response.data.length;i++){
+
+				$("#list").append("<tr class='tr'><td> "+(i+1)+"</td><td>"+response.data[i].title+"</td></tr>");
+				
+			}
+			
+		}
+	});
+}
+
+
+</script>
+</body>
+</html>
+

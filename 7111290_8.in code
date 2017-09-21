@@ -1,0 +1,412 @@
+Commands to be executed in Rconsole.
+Data Retrieval 
+# Load the necessary packages
+
+>  library(httpuv)
+>  library(httr)
+>  library(rjson)
+>  library(Rfacebook)
+>  library(bitops)
+>  library(Rook)
+>  install.packages("C:/sentiment_0.2.tar.gz", repos = NULL, type="source")
+* DONE (sentiment)
+>  library(tm)
+>  library(NLP)
+>  library(ggplot2)
+>  library(Rstem)
+>  library(sentiment)
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Find OAuth settings for Facebook:
+>  fb_oauth <- fbOAuth(app_id="237086160150686", app_secret="8ffedcc437732bd1b25f6af838ac9783")
+Copy and paste into Site URL on Facebook App Settings: http://localhost:1410/ 
+When done, press any key to continue...
+Waiting for authentication in browser...
+Press Esc/Ctrl + C to abort
+Authentication complete.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Register an application (API) at https://developer.facebook.com/ 
+# Once done registering, look at the values of api key, secret and token 
+# Insert these values below(In R console)
+> token <- 'EAACEdEose0cBAAMrarjQxt636XA6paSxTXdewNqmqMTBMCu4jO3qYqzQ8iCxX7y87efrtTIdyM1nGFuMZAoLZBHMZAWQLdZAldSEZCTVBK8ZBX42vIycheW5f5ivlLs9GbWCG0Mix4Yh6zB5JphZAq7kQe0Jz8xq6WsgyXmhua8e12PqF7RjJwS5NM2DTD3rHYZD'
+> save(fb_oauth, file="fb_oauth")
+> load("fb_oauth")
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Now let us collect some posts (25 in our example) from the Facebook page of “AmazonIndia"
+> amazon_in <-getPage ("Amazon.in",token, n=25)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Now we fetch the data of the last 25 post starting from ‘id[1]…id[25] using ‘getPost()’ where ‘id[1]’ represents the data from last post on the page of “Amazon.in” the parameter ‘n’ is set to a value which is greater than the total comment count:
+
+>  post1 <- getPost(post=amazon_in$id[1], n=25, token=token)
+>  post2 <- getPost(post=amazon_in$id[2], n=25, token=token)
+>  post3 <- getPost(post=amazon_in$id[3], n=25, token=token)
+>  post4 <- getPost(post=amazon_in$id[4], n=25, token=token)
+>  post5 <- getPost(post=amazon_in$id[5], n=25, token=token)
+>  post6 <- getPost(post=amazon_in$id[6], n=25, token=token)
+>  post7 <- getPost(post=amazon_in$id[7], n=25, token=token)
+>  post8 <- getPost(post=amazon_in$id[8], n=25, token=token)
+>  post9 <- getPost(post=amazon_in$id[9], n=25, token=token)
+>  post10 <- getPost(post=amazon_in$id[10], n=25, token=token)
+>  post11 <- getPost(post=amazon_in$id[11], n=25, token=token)
+>  post12 <- getPost(post=amazon_in$id[12], n=25, token=token)
+>  post13 <- getPost(post=amazon_in$id[13], n=25, token=token)
+>  post14 <- getPost(post=amazon_in$id[14], n=25, token=token)
+>  post15 <- getPost(post=amazon_in$id[15], n=25, token=token)
+>  post16 <- getPost(post=amazon_in$id[16], n=25, token=token)
+>  post17 <- getPost(post=amazon_in$id[17], n=25, token=token)
+>  post18 <- getPost(post=amazon_in$id[18], n=25, token=token)
+>  post19 <- getPost(post=amazon_in$id[19], n=25, token=token)
+>  post19 <- getPost(post=amazon_in$id[19], n=25, token=token)
+>  post20 <- getPost(post=amazon_in$id[20], n=25, token=token)
+>  post21 <- getPost(post=amazon_in$id[21], n=25, token=token)
+>  post22 <- getPost(post=amazon_in$id[22], n=25, token=token)
+>  post23 <- getPost(post=amazon_in$id[23], n=25, token=token)
+>  post24 <- getPost(post=amazon_in$id[24], n=25, token=token)
+>  post25 <- getPost(post=amazon_in$id[25], n=25, token=token)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Now we isolate the data from the post1…post25 placing it in another variable i.e. amazon_post1…amazon_post25n order to have proper computation of data & also we can compare the data in future:
+>  amazon_post1<-post1
+>  amazon_post2<-post2
+>  amazon_post3<-post3
+>  amazon_post<-post4
+>  amazon_post4<-post4
+>  amazon_post5<-post5
+>  amazon_post6<-post6
+>  amazon_post7<-post7
+>  amazon_post8<-post8
+>  amazon_post9<-post9
+>  amazon_post10<-post10
+>  amazon_post11<-post11
+>  amazon_post12<-post12
+>  amazon_post13<-post13
+>  amazon_post14<-post14
+>  amazon_post15<-post15
+>  amazon_post16<-post16
+>  amazon_post17<-post17
+>  amazon_post18<-post18
+>  amazon_post19<-post19
+>  amazon_post20<-post20
+>  amazon_post21<-post21
+>  amazon_post22<-post22
+>  amazon_post23<-post23
+>  amazon_post24<-post24
+>  amazon_post25<-post25
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Cleaning the Data
+# We firstly remove the names (column headings) from the text, as we do not want them in the sentiment analysis.
+the data which is not required will be sanitized here
+> names(amazon_post1) = NULL
+> names(amazon_post2) = NULL
+> names(amazon_post3) = NULL
+> names(amazon_post4) = NULL
+> names(amazon_post5) = NULL
+> names(amazon_post6) = NULL
+> names(amazon_post7) = NULL
+> names(amazon_post8) = NULL
+> names(amazon_post9) = NULL
+> names(amazon_post10) = NULL
+> names(amazon_post11) = NULL
+> names(amazon_post12) = NULL
+> names(amazon_post13) = NULL
+> names(amazon_post14) = NULL
+> names(amazon_post15) = NULL
+> names(amazon_post16) = NULL
+> names(amazon_post17) = NULL
+> names(amazon_post18) = NULL
+> names(amazon_post19) = NULL
+> names(amazon_post20) = NULL
+> names(amazon_post21) = NULL
+> names(amazon_post22) = NULL
+> names(amazon_post23) = NULL
+> names(amazon_post24) = NULL
+> names(amazon_post25) = NULL
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Then remove numbers, we need only text for analytics 
+> amazon_post1 = gsub("[[:digit:]]", "", amazon_post1)
+> amazon_post2 = gsub("[[:digit:]]", "", amazon_post2)
+> amazon_post3 = gsub("[[:digit:]]", "", amazon_post3)
+> amazon_post4 = gsub("[[:digit:]]", "", amazon_post4)
+> amazon_post5 = gsub("[[:digit:]]", "", amazon_post5)
+> amazon_post6 = gsub("[[:digit:]]", "", amazon_post6)
+> amazon_post7 = gsub("[[:digit:]]", "", amazon_post7)
+> amazon_post8 = gsub("[[:digit:]]", "", amazon_post8)
+> amazon_post9 = gsub("[[:digit:]]", "", amazon_post9)
+> amazon_post10 = gsub("[[:digit:]]", "", amazon_post10)
+> amazon_post11 = gsub("[[:digit:]]", "", amazon_post11)
+> amazon_post12 = gsub("[[:digit:]]", "", amazon_post12)
+> amazon_post13 = gsub("[[:digit:]]", "", amazon_post13)
+> amazon_post14 = gsub("[[:digit:]]", "", amazon_post14)
+> amazon_post15 = gsub("[[:digit:]]", "", amazon_post15)
+> amazon_post16 = gsub("[[:digit:]]", "", amazon_post16)
+> amazon_post17 = gsub("[[:digit:]]", "", amazon_post17)
+> amazon_post18 = gsub("[[:digit:]]", "", amazon_post18)
+> amazon_post19= gsub("[[:digit:]]", "", amazon_post19)
+> amazon_post20= gsub("[[:digit:]]", "", amazon_post20)
+> amazon_post21= gsub("[[:digit:]]", "", amazon_post21)
+> amazon_post22= gsub("[[:digit:]]", "", amazon_post22)
+> amazon_post23= gsub("[[:digit:]]", "", amazon_post23)
+> amazon_post24= gsub("[[:digit:]]", "", amazon_post24)
+> amazon_post25= gsub("[[:digit:]]", "", amazon_post25)
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+# After removing digits we get the data in three row format in which amazon_post1…[25] consist table
+headings  amazon_post1...25[2] consists of names of those who have liked the post & amazon_post25[3] consists of the comments & names of those who have commented. So we only store the amazon_post1…25 in amazon_post1…25 comments:
+> amazon_post1_comments <- amazon_post1[3]
+> amazon_post2_comments <- amazon_post2[3]
+> amazon_post3_comments <- amazon_post2[3]
+> amazon_post3_comments <- amazon_post3[3]
+> amazon_post4_comments <- amazon_post4[3]
+> amazon_post5_comments <- amazon_post5[3]
+> amazon_post6_comments <- amazon_post6[3]
+> amazon_post7_comments <- amazon_post7[3]
+> amazon_post8_comments <- amazon_post8[3]
+> amazon_post9_comments <- amazon_post9[3]
+> amazon_post10_comments <- amazon_post10[3]
+> amazon_post11_comments <- amazon_post11[3]
+> amazon_post12_comments <- amazon_post12[3]
+> amazon_post13_comments <- amazon_post13[3]
+> amazon_post14_comments <- amazon_post14[3]
+> amazon_post15_comments <- amazon_post15[3]
+> amazon_post16_comments <- amazon_post16[3]
+> amazon_post17_comments <- amazon_post17[3]
+> amazon_post18_comments <- amazon_post18[3]
+> amazon_post19_comments <- amazon_post19[3]
+> amazon_post20_comments <- amazon_post20[3]
+> amazon_post21_comments <- amazon_post21[3]
+> amazon_post22_comments <- amazon_post22[3]
+> amazon_post23_comments <- amazon_post23[3]
+> amazon_post24_comments <- amazon_post24[3]
+> amazon_post25_comments <- amazon_post25[3]
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Now we remove the string “from_id” from the comments which is not required for analysis:
+> amazon_post1_comments = gsub("from_id", "", amazon_post1_comments)
+> amazon_post1_comments = gsub("from_id", "", amazon_post1_comments)
+> amazon_post2_comments = gsub("from_id", "", amazon_post2_comments)
+> amazon_post3_comments = gsub("from_id", "", amazon_post3_comments)
+> amazon_post4_comments = gsub("from_id", "", amazon_post4_comments)
+> amazon_post5_comments = gsub("from_id", "", amazon_post5_comments)
+> amazon_post6_comments = gsub("from_id", "", amazon_post6_comments)
+> amazon_post7_comments = gsub("from_id", "", amazon_post7_comments)
+> amazon_post8_comments = gsub("from_id", "", amazon_post8_comments)
+> amazon_post9_comments = gsub("from_id", "", amazon_post9_comments)
+> amazon_post10_comments = gsub("from_id", "",amazon_post10_comments)
+> amazon_post11_comments = gsub("from_id", "",amazon_post11_comments)
+> amazon_post12_comments = gsub("from_id", "",amazon_post12_comments)
+> amazon_post13_comments = gsub("from_id", "",amazon_post13_comments)
+> amazon_post14_comments = gsub("from_id", "",amazon_post14_comments)
+> amazon_post15_comments = gsub("from_id", "",amazon_post15_comments)
+> amazon_post16_comments = gsub("from_id", "",amazon_post16_comments)
+> amazon_post17_comments = gsub("from_id", "",amazon_post17_comments)
+> amazon_post18_comments = gsub("from_id", "", amazon_post18_comments)
+> amazon_post19_comments = gsub("from_id", "",amazon_post19_comments)
+> amazon_post20_comments = gsub("from_id", "",amazon_post20_comments)
+> amazon_post21_comments = gsub("from_id", "",amazon_post21_comments)
+> amazon_post22_comments = gsub("from_id", "",amazon_post22_comments)
+> amazon_post23_comments = gsub("from_id", "",amazon_post23_comments)
+> amazon_post24_comments = gsub("from_id", "",amazon_post24_comments)
+> amazon_post25_comments = gsub("from_name", "",amazon_post25_comments)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Now we remove the string “from_name” from the comments which is not required for analysis:
+> amazon_post1_comments = gsub("from_name", "", amazon_post1_comments)
+> amazon_post2_comments = gsub("from_name", "", amazon_post2_comments)
+> amazon_post3_comments = gsub("from_name", "", amazon_post3_comments)
+> amazon_post4_comments = gsub("from_name", "", amazon_post4_comments)
+> amazon_post5_comments = gsub("from_name", "", amazon_post5_comments)
+> amazon_post6_comments = gsub("from_name", "", amazon_post6_comments)
+> amazon_post7_comments = gsub("from_name", "", amazon_post7_comments)
+> amazon_post8_comments = gsub("from_name", "", amazon_post8_comments)
+> amazon_post9_comments = gsub("from_name", "", amazon_post9_comments)
+> amazon_post10_comments = gsub("from_name","", mazon_post10_comments)
+> amazon_post11_comments = gsub("from_name", "",amazon_post11_comments)
+> amazon_post12_comments = gsub("from_name", "" amazon_post12_comments)
+> amazon_post13_comments = gsub("from_name", "",amazon_post13_comments)
+> amazon_post14_comments = gsub("from_name", "",amazon_post14_comments)
+> amazon_post15_comments = gsub("from_name", "",amazon_post15_comments)
+> amazon_post16_comments = gsub("from_name", "",amazon_post16_comments)
+> amazon_post17_comments = gsub("from_name", "",amazon_post17_comments)
+> amazon_post18_comments = gsub("from_name", "",amazon_post18_comments)
+> amazon_post19_comments = gsub("from_name", "",amazon_post19_comments)
+> amazon_post20_comments = gsub("from_name", "",amazon_post20_comments)
+> amazon_post21_comments = gsub("from_name", "",amazon_post21_comments)
+> amazon_post22_comments = gsub("from_name", "",amazon_post22_comments)
+> amazon_post23_comments = gsub("from_name", "",amazon_post23_comments)
+> amazon_post24_comments = gsub("from_name", "",amazon_post24_comments)
+> amazon_post25_comments = gsub("from_name", "",amazon_post25_comments)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Now we remove unnecessary spaces (white spaces, tabs etc) 
+> amazon_post1_comments = gsub("[ \t]{2,}", "", amazon_post1_comments)
+> amazon_post2_comments = gsub("[ \t]{2,}", "", amazon_post2_comments)
+> amazon_post3_comments = gsub("[ \t]{2,}", "", amazon_post3_comments)
+> amazon_post4_comments = gsub("[ \t]{2,}", "", amazon_post4_comments)
+> amazon_post5_comments = gsub("[ \t]{2,}", "", amazon_post5_comments)
+> amazon_post6_comments = gsub("[ \t]{2,}", "", amazon_post6_comments)
+> amazon_post7_comments = gsub("[ \t]{2,}", "", amazon_post7_comments)
+> amazon_post8_comments = gsub("[ \t]{2,}", "", amazon_post8_comments)
+> amazon_post9_comments = gsub("[ \t]{2,}", "", amazon_post9_comments)
+> amazon_post10_comments = gsub("[ \t]{2,}", "",amazon_post10_comments)
+> amazon_post11_comments = gsub("[ \t]{2,}", "",amazon_post11_comments)
+> amazon_post12_comments = gsub("[ \t]{2,}", "", amazon_post12_comments)
+> amazon_post13_comments = gsub("[ \t]{2,}", "", amazon_post13_comments)
+> amazon_post14_comments = gsub("[ \t]{2,}", "", amazon_post14_comments)
+> amazon_post15_comments = gsub("[ \t]{2,}", "", amazon_post15_comments)
+> amazon_post16_comments = gsub("[ \t]{2,}", "", amazon_post16_comments)
+> amazon_post17_comments = gsub("[ \t]{2,}", "", amazon_post17_comments)
+> amazon_post18_comments = gsub("[ \t]{2,}", "", amazon_post18_comments)
+> amazon_post19_comments = gsub("[ \t]{2,}", "", amazon_post19_comments)
+> amazon_post20_comments = gsub("[ \t]{2,}", "", amazon_post20_comments)
+> amazon_post21_comments = gsub("[ \t]{2,}", "", amazon_post21_comments)
+> amazon_post22_comments = gsub("[ \t]{2,}", "", amazon_post22_comments)
+> amazon_post23_comments = gsub("[ \t]{2,}", "", amazon_post23_comments)
+> amazon_post24_comments = gsub("[ \t]{2,}", "", amazon_post24_comments)
+> amazon_post25_comments = gsub("[ \t]{2,}", "", amazon_post25_comments)
+
+ 
+> amazon_post1_comments = gsub("^\\s+|\\s+$", "", amazon_post1_comments)
+> amazon_post2_comments = gsub("^\\s+|\\s+$", "", amazon_post2_comments)
+> amazon_post3_comments = gsub("^\\s+|\\s+$", "", amazon_post3_comments)
+> amazon_post4_comments = gsub("^\\s+|\\s+$", "", amazon_post4_comments)
+> amazon_post5_comments = gsub("^\\s+|\\s+$", "", amazon_post5_comments)
+> amazon_post6_comments = gsub("^\\s+|\\s+$", "", amazon_post6_comments)
+> amazon_post7_comments = gsub("^\\s+|\\s+$", "", amazon_post7_comments)
+> amazon_post8_comments = gsub("^\\s+|\\s+$", "", amazon_post8_comments)
+> amazon_post9_comments = gsub("^\\s+|\\s+$", "", amazon_post9_comments)
+> amazon_post10_comments = gsub("^\\s+|\\s+$", "",amazon_post10_comments)
+> amazon_post11_comments = gsub("^\\s+|\\s+$", "",amazon_post11_comments)
+> amazon_post12_comments = gsub("^\\s+|\\s+$", "", amazon_post12_comments)
+> amazon_post13_comments = gsub("^\\s+|\\s+$", "", amazon_post13_comments)
+> amazon_post14_comments = gsub("^\\s+|\\s+$", "", amazon_post14_comments)
+> amazon_post15_comments = gsub("^\\s+|\\s+$", "", amazon_post15_comments)
+> amazon_post16_comments = gsub("^\\s+|\\s+$", "", amazon_post16_comments)
+> amazon_post17_comments = gsub("^\\s+|\\s+$", "", amazon_post17_comments)
+> amazon_post18_comments = gsub("^\\s+|\\s+$", "", amazon_post18_comments)
+> amazon_post19_comments = gsub("^\\s+|\\s+$", "", amazon_post19_comments)
+> amazon_post20_comments = gsub("^\\s+|\\s+$", "", amazon_post20_comments)
+> amazon_post21_comments = gsub("^\\s+|\\s+$", "", amazon_post21_comments)
+> amazon_post22_comments = gsub("^\\s+|\\s+$", "", amazon_post22_comments)
+> amazon_post23_comments = gsub("^\\s+|\\s+$", "", amazon_post23_comments)
+> amazon_post24_comments = gsub("^\\s+|\\s+$", "", amazon_post24_comments)
+> amazon_post25_comments = gsub("^\\s+|\\s+$", "", amazon_post25_comments)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Now the text is fully prepared and we are good to go to perform Sentiment Analysis using this text. 
+ 
+Processing The Data i.e. The Sentimental Analysis
+ 
+# As a first step in this stage, let us first classify emotions 
+# We will be using Bayes’ algorithm to classify emotion categories
+# The below function returns an object of class data.frame with seven columns (anger, disgust, fear, joy, sadness, surprise, best_fit) and one row for each document.
+> amazon_class1_emo = classify_emotion(ai_post1_comments, algorithm="bayes", prior=1.0)
+> amazon_class2_emo = classify_emotion(ai_post2_comments, algorithm="bayes", prior=1.0)
+> amazon_class3_emo = classify_emotion(ai_post3_comments, algorithm="bayes", prior=1.0)
+> amazon_class4_emo = classify_emotion(ai_post4_comments, algorithm="bayes", prior=1.0)
+> amazon_class5_emo = classify_emotion(ai_post5_comments, algorithm="bayes", prior=1.0)
+> amazon_class6_emo = classify_emotion(ai_post6_comments, algorithm="bayes", prior=1.0)
+> amazon_class7_emo = classify_emotion(ai_post7_comments, algorithm="bayes", prior=1.0)
+> amazon_class8_emo = classify_emotion(ai_post8_comments, algorithm="bayes", prior=1.0)
+> amazon_class9_emo = classify_emotion(ai_post9_comments, algorithm="bayes", prior=1.0)
+> amazon_class10_emo = classify_emotion(ai_post10_comments, algorithm="bayes", prior=1.0)
+> amazon_class11_emo = classify_emotion(ai_post11_comments, algorithm="bayes", prior=1.0)
+> amazon_class12_emo = classify_emotion(ai_post12_comments, algorithm="bayes", prior=1.0)
+> amazon_class13_emo = classify_emotion(ai_post13_comments, algorithm="bayes", prior=1.0)
+> amazon_class14_emo = classify_emotion(ai_post14_comments, algorithm="bayes", prior=1.0)
+> amazon_class15_emo = classify_emotion(ai_post15_comments, algorithm="bayes", prior=1.0)
+> amazon_class16_emo = classify_emotion(ai_post16_comments, algorithm="bayes", prior=1.0)
+> amazon_class17_emo = classify_emotion(ai_post17_comments, algorithm="bayes", prior=1.0)
+> amazon_class18_emo = classify_emotion(ai_post18_comments, algorithm="bayes", prior=1.0)
+> amazon_class19_emo = classify_emotion(ai_post19_comments, algorithm="bayes", prior=1.0)
+> amazon_class20_emo = classify_emotion(ai_post20_comments, algorithm="bayes", prior=1.0)
+> amazon_class21_emo = classify_emotion(ai_post19_comments, algorithm="bayes", prior=1.0)
+> amazon_class22_emo = classify_emotion(ai_post19_comments, algorithm="bayes", prior=1.0)
+> amazon_class23_emo = classify_emotion(ai_post19_comments, algorithm="bayes", prior=1.0)
+> amazon_class24_emo = classify_emotion(ai_post19_comments, algorithm="bayes", prior=1.0)
+> amazon_class25_emo = classify_emotion(ai_post19_comments, algorithm="bayes", prior=1.0)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Similar to above, we will classify polarity in the text 
+> amazon_class1_pol = classify_polarity(ai_post1_comments, algorithm="bayes")
+> amazon_class2_pol = classify_polarity(ai_post2_comments, algorithm="bayes")
+> amazon_class3_pol = classify_polarity(ai_post3_comments, algorithm="bayes")
+> amazon_class4_pol = classify_polarity(ai_post4_comments, algorithm="bayes")
+> amazon_class5_pol = classify_polarity(ai_post5_comments, algorithm="bayes")
+> amazon_class6_pol = classify_polarity(ai_post6_comments, algorithm="bayes")
+> amazon_class7_pol = classify_polarity(ai_post7_comments, algorithm="bayes")
+> amazon_class8_pol = classify_polarity(ai_post8_comments, algorithm="bayes")
+> amazon_class9_pol = classify_polarity(ai_post9_comments, algorithm="bayes")
+> amazon_class10_pol = classify_polarity(ai_post10_comments, algorithm="bayes")
+> amazon_class11_pol = classify_polarity(ai_post11_comments, algorithm="bayes")
+> amazon_class12_pol = classify_polarity(ai_post12_comments, algorithm="bayes")
+> amazon_class13_pol = classify_polarity(ai_post13_comments, algorithm="bayes")
+> amazon_class14_pol = classify_polarity(ai_post14_comments, algorithm="bayes")
+> amazon_class15_pol = classify_polarity(ai_post15_comments, algorithm="bayes")
+> amazon_class16_pol = classify_polarity(ai_post16_comments, algorithm="bayes")
+> amazon_class17_pol = classify_polarity(ai_post17_comments, algorithm="bayes")
+> amazon_class18_pol = classify_polarity(ai_post18_comments, algorithm="bayes")
+> amazon_class19_pol = classify_polarity(ai_post19_comments, algorithm="bayes")
+> amazon_class20_pol = classify_polarity(ai_post20_comments, algorithm="bayes")
+> amazon_class21_pol = classify_polarity(ai_post21_comments, algorithm="bayes")
+> amazon_class22_pol = classify_polarity(ai_post22_comments, algorithm="bayes")
+> amazon_class23_pol = classify_polarity(ai_post23_comments, algorithm="bayes")
+> amazon_class24_pol = classify_polarity(ai_post24_comments, algorithm="bayes")
+> amazon_class25_pol = classify_polarity(ai_post25_comments, algorithm="bayes")
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# This process will classify the text data into four categories (pos –#The absolute log likelihood of the document expressing a positive sentiment, neg –#The absolute log likelihood of the document expressing a negative sentiment, pos/neg  –#The ratio of absolute log likelihoods between positive and negative sentiment scores where a score of 1 indicates a neutral sentiment, less than 1 indicates a negative sentiment, and greater than 1 indicates a positive sentiment; AND best_fit -#The most likely sentiment category (e.g. positive, negative, neutral) for the given text) 
+
+
+#Now we combine the emotions of all the 25 comments` data into a single vector ai_class_emotion using the ‘rbind()’ function:
+
+> ai_class_emotion=rbind(amazon_class1_emo, amazon_class2_emo, amazon_class3_emo, amazon_class4_emo, amazon_class5_emo, amazon_class6_emo,  
+amazon_class7_emo, amazon_class8_emo, amazon_class9_emo, amazon_class10_emo, amazon_class11_emo, amazon_class12_emo, amazon_class13_emo,  
+amazon_class14_emo, amazon_class15_emo, amazon_class16_emo, amazon_class17_emo, amazon_class18_emo, amazon_class19_emo, amazon_class20_emo, amazon_class21_emo, amazon_class21_emo, amazon_class22_emo, amazon_class23_emo, amazon_class24_emo, amazon_class25_emo)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Similarly, we combine the emotions of all the 25 comments` data into a single vector ai_class_polarity using the ‘rbind()’ function:
+
+> ai_class_polarity=rbind(amazon_class1_pol, amazon_class2_pol, amazon_class3_pol, amazon_class4_pol, amazon_class5_pol, amazon_class6_pol,  
+amazon_class7_pol, amazon_class8_pol, amazon_class9_pol, amazon_class10_pol, amazon_class11_pol, amazon_class12_pol, amazon_class13_pol,   amazon_class14_pol, amazon_class15_pol, amazon_class16_pol, amazon_class17_pol, amazon_class18_pol, amazon_class19_pol, amazon_class20_pol, amazon_class21_pol, amazon_class22_pol, amazon_class22_pol, amazon_class23_pol, amazon_class24_pol, amazon_class25_pol)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# we will fetch emotion category best_fit for our analysis purposes, 
+> emotion = ai_class_emotion[,7]
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# we will fetch polarity category best_fit for our analysis purposes, 
+> polarity = ai_class_polarity[,4]
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Now that we have the data from all the comments into separate vectors, we need to combine it into a single vector as we have to specify the parameter for ‘data.frame()’ function as a single ‘text’. Hence, we combine the 19 comments` data into a single vector named ai_post_comments:
+>ai_post_comments= c(ai_post1_comments , ai_post2_comments , ai_post3_comments , ai_post4_comments , ai_post5_comments , ai_post6_comments ,  
+ai_post7_comments , ai_post8_comments , ai_post9_comments , ai_post10_comments , ai_post11_comments , ai_post12_comments , ai_post13_comments ,  
+ai_post14_comments , ai_post15_comments , ai_post16_comments , ai_post17_comments , ai_post18_comments , ai_post19_comments, ai_post20_comments,ai_post21_comments, ai_post22_comments, ai_post23_comments, ai_post24_comments, ai_post25_comments)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Now that we have combined the data into a single ‘vector’, it has introduced some punctuations in the data, so we need to filter it:
+>ai_post_comments = gsub("[[:punct:]]", "", ai_post_comments)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Let us now create a data frame with the above results obtained and rearrange data for plotting purposes 
+# Creating a data frame using emotion category and polarity results earlier obtained 
+ >sentiment_dataframe = data.frame(text=ai_post_comments, emotion=emotion, polarity=polarity, stringsAsFactors=FALSE)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Plotting the Data 
+# First let us plot the distribution of emotions according to emotion categories.
+# We will use ‘ggplot()’ function from ggplot2 Package.
+>ggplot(sentiment_dataframe, aes(x=emotion)) + geom_bar(aes(y=..count.., fill=emotion)) + scale_fill_brewer(palette="Dark2") + ggtitle('Sentiment Analysis of Comments on last 25 Facebook posts about Amazon') + theme(legend.position='right') + ylab('Number of Posts') + xlab('Emotion Categories')
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Similarly, we will plot distribution of polarity in the posts:
+> ggplot(sentiment_dataframe, aes(x=polarity)) +  geom_bar(aes(y=..count.., fill=polarity)) + scale_fill_brewer(palette="RdGy") +  ggtitle('Sentiment Analysis of Comments on last 25 posts on Facebook about Amazon') + theme(legend.position='right') + ylab('Number of Posts') + xlab('Polarity Categories') 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
